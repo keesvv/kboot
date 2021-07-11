@@ -1,27 +1,20 @@
 #![no_std]
 #![no_main]
 #![feature(asm)]
+#![feature(abi_efiapi)]
 
-#[panic_handler]
-fn panic(_info: &core::panic::PanicInfo) -> ! {
+extern crate rlibc;
+use core::fmt::Write;
+use uefi::prelude::*;
+
+#[entry]
+fn main(_image: Handle, st: SystemTable<Boot>) -> Status {
+    st.stdout().reset(true).unwrap().unwrap();
+    st.stdout().write_str("Hello, world!\n").unwrap();
     loop {}
 }
 
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
-    let buf = 0xb8000 as *mut u8;
-    static HELLO_WORLD: &[u8] = b"Hello, world!";
-
-    // Loop through each character
-    for (i, &b) in HELLO_WORLD.iter().enumerate() {
-        unsafe {
-            // Print character
-            *buf.offset(i as isize * 2) = b;
-
-            // 0x0 = VGA color black
-            *buf.offset(i as isize * 2 + 1) = 0x0;
-        }
-    }
-
+#[panic_handler]
+fn panic(_info: &core::panic::PanicInfo) -> ! {
     loop {}
 }
