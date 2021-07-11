@@ -1,2 +1,4 @@
 /target
 *.bak
+kboot.efi
+kboot.img
