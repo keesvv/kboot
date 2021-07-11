@@ -1,7 +1,10 @@
 OVMF_CODE    = /usr/share/ovmf/x64/OVMF_CODE.fd
 OVMF_VARS    = /usr/share/ovmf/x64/OVMF_VARS.fd
 CARGO_TARGET = build/x86_64-kboot.json
-BUILD_FLAGS  = -Zbuild-std --target $(CARGO_TARGET)
+BUILD_FLAGS  = \
+	-Zbuild-std \
+	-Zbuild-std-features=compiler-builtins-mem \
+	--target $(CARGO_TARGET)
 
 all: build
 
