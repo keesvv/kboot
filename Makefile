@@ -1,10 +1,11 @@
-OVMF_CODE = /usr/share/ovmf/x64/OVMF_CODE.fd
-OVMF_VARS = /usr/share/ovmf/x64/OVMF_VARS.fd
+OVMF_CODE    = /usr/share/ovmf/x64/OVMF_CODE.fd
+OVMF_VARS    = /usr/share/ovmf/x64/OVMF_VARS.fd
+CARGO_TARGET = build/x86_64-kboot.json
 
 all: build
 
 build:
-	cargo build -Zbuild-std --target build/x86_64-kboot.json
+	cargo build -Zbuild-std --target $(CARGO_TARGET)
 
 qemu:
 	qemu-system-x86_64 -cpu qemu64 \
